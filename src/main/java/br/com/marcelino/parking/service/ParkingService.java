@@ -1,5 +1,6 @@
 package br.com.marcelino.parking.service;
 
+import br.com.marcelino.parking.exception.ParkingNotFoundException;
 import br.com.marcelino.parking.model.Parking;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,14 @@ public class ParkingService {
 
     private static Map<String, Parking> parkingMap = new HashMap();
 
-    static {
-        var id1 = getUUID();
-        var id2 = getUUID();
-        Parking parking1 = new Parking(id1, "DMS-4569", "SC", "CELTA", "PRETO");
-        Parking parking2 = new Parking(id2, "TJF-5689", "SP", "GOL", "PRETO");
-        parkingMap.put(id1, parking1);
-        parkingMap.put(id2, parking2);
-    }
+//    static {
+//        var id1 = getUUID();
+//        var id2 = getUUID();
+//        Parking parking1 = new Parking(id1, "DMS-4569", "SC", "CELTA", "PRETO");
+//        Parking parking2 = new Parking(id2, "TJF-5689", "SP", "GOL", "PRETO");
+//        parkingMap.put(id1, parking1);
+//        parkingMap.put(id2, parking2);
+//    }
 
     public List<Parking> findAll() {
         return parkingMap.values().
@@ -36,7 +37,12 @@ public class ParkingService {
 
 
     public Parking findById(String id) {
-        return parkingMap.get(id);
+        Parking parking = parkingMap.get(id);
+        if (parking == null) {
+            throw new ParkingNotFoundException(id);
+        }
+
+        return parking;
     }
 
     public Parking create(Parking parkingCreate) {
@@ -45,5 +51,24 @@ public class ParkingService {
         parkingCreate.setEntryDate(LocalDateTime.now());
         parkingMap.put(uuid, parkingCreate);
         return parkingCreate;
+    }
+
+    public void delete(String id) {
+        findById(id);
+        parkingMap.remove(id);
+    }
+
+    public Parking update(String id, Parking parkingCreate) {
+        Parking parking = findById(id);
+        parking.setColor(parkingCreate.getColor());;
+        parkingMap.replace(id, parking);
+        return parking;
+    }
+
+    public Parking exit(String id) {
+        //recuperar o estacionado
+        //atualizar data de saída
+        //calcular o valor
+        return null;
     }
 }
