@@ -26,7 +26,7 @@ public class ParkingController {
     }
 
     @GetMapping
-    @ApiOperation("Find All pzarkings")
+    @ApiOperation("Find All parkings")
     public ResponseEntity<List<ParkingDTO>> findAll() {
         List<Parking> parkingList = parkingService.findAll();
         List<ParkingDTO> result = parkingMapper.toParkingDTOList(parkingList);
@@ -62,8 +62,8 @@ public class ParkingController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ParkingDTO> exit(@PathVariable String id) {
-        Parking parking = parkingService.exit(id);
+    public ResponseEntity<ParkingDTO> checkOut(@PathVariable String id) {
+        Parking parking = parkingService.checkOut(id);
         return ResponseEntity.ok(parkingMapper.toParkingDTO(parking));
     }
 }

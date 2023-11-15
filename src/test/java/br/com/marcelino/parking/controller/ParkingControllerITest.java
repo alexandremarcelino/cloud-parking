@@ -10,10 +10,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import java.awt.*;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class ParkingControllerIT {
+class ParkingControllerITest extends AbstractContainerBase {
 
     @LocalServerPort
     private int randomPort;
